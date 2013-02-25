@@ -1,1 +1,0 @@
-Extensions for [DotNetWikiBot](http://dotnetwikibot.sourceforge.net/).
