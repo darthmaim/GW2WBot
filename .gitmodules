@@ -1,0 +1,3 @@
+[submodule "GW2WBot2/DotNetWikiBotExtensions"]
+	path = GW2WBot2/DotNetWikiBotExtensions
+	url = https://github.com/darthmaim/DotNetWikiBot-Extensions.git
