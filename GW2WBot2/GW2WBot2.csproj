@@ -52,7 +52,9 @@
     <Compile Include="DotNetWikiBot.cs" />
     <Compile Include="DotNetWikiBotExtensions\TemplateExtensions.cs" />
     <Compile Include="Job.cs" />
+    <Compile Include="Jobs\AngebotSubpageToMainarticleJob.cs" />
     <Compile Include="Jobs\BeschaffungTemplateJob.cs" />
+    <Compile Include="Jobs\RemoveUeberfluessigeParameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatusAPI.cs" />
