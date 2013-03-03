@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using System.Linq;
 using DotNetWikiBot;
 using DotNetWikiBotExtensions;
@@ -25,7 +23,7 @@ namespace GW2WBot2.Jobs
                 {
                     if (template.Parameters.ContainsKey("seltenheit")
                         &&
-                        new string[] {"meisterwerk", "selten", "exotisch", "legendär"}.Contains(
+                        new[] {"meisterwerk", "selten", "exotisch", "legendär"}.Contains(
                             template.Parameters["seltenheit"].ToLower())
                         && template.Parameters.ContainsKey("gebunden") &&
                         template.Parameters["gebunden"].ToLower() == "benutzung")
@@ -59,7 +57,7 @@ namespace GW2WBot2.Jobs
                             removed.Add(parameter);
                         }
                     }
-                    if (removed.Count > 0)
+                    if (removed.Any())
                     {
                         template.Save();
                         changes.Add("Eventbelohnung: '" + string.Join("', '", removed) + "' entfernt");
@@ -81,7 +79,7 @@ namespace GW2WBot2.Jobs
                             removed.Add(parameter);
                         }
                     }
-                    if (removed.Count > 0)
+                    if (removed.Any())
                     {
                         template.Save();
                         changes.Add("Infobox Aufgabe: '" + string.Join("', '", removed) + "' entfernt");
@@ -103,7 +101,7 @@ namespace GW2WBot2.Jobs
                             removed.Add(parameter);
                         }
                     }
-                    if (removed.Count > 0)
+                    if (removed.Any())
                     {
                         template.Save();
                         changes.Add("Infobox Farbstoff: '" + string.Join("', '", removed) + "' entfernt");
