@@ -7,6 +7,8 @@ namespace GW2WBot2.Jobs
 {
     class FixParameterfehlerJob : Job
     {
+        public FixParameterfehlerJob(Site site) : base(site) { }
+
         protected override void ProcessPage(Page p, EditStatus edit)
         {
             var changes = new List<string>();

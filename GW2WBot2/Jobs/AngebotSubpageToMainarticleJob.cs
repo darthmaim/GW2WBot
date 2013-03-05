@@ -7,6 +7,8 @@ namespace GW2WBot2.Jobs
 {
     public class AngebotSubpageToMainarticleJob : Job
     {
+        public AngebotSubpageToMainarticleJob(Site site) : base(site) { }
+
         protected override void ProcessPage(Page p, EditStatus edit)
         {
             if (p.GetNamespace() != 0)

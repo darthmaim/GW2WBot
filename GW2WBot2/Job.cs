@@ -1,18 +1,29 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using DotNetWikiBot;
+using DotNetWikiBotExtensions;
 
 namespace GW2WBot2
 {
     public abstract class Job
     {
-        public void Run(Site s, PageList pl)
+        public Site Site { get; set; }
+
+        protected Job(Site site)
         {
+            Site = site;
+        }
+
+
+        public void Run(PageList pl)
+        {
+            Start();
             var statusApi = new StatusApi();
             statusApi.SetStatus(true);
             try
             {
-                foreach (Page p in pl)
+                foreach (Page p in pl.ToEnumerable().SkipWhile(p => !p.title.StartsWith("Arkanist")))
                 {
                     if (!statusApi.GetRunning())
                     {
@@ -35,10 +46,14 @@ namespace GW2WBot2
             finally
             {
                 statusApi.SetStatus(false);
+                End();
             }
         }
 
         protected abstract void ProcessPage(Page p, EditStatus edit);
+
+        protected virtual void Start() { }
+        protected virtual void End() { }
 
         protected class EditStatus
         {

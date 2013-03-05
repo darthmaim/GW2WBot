@@ -6,6 +6,8 @@ namespace GW2WBot2.Jobs
 {
     public class BeschaffungTemplateJob : Job
     {
+        public BeschaffungTemplateJob(Site site) : base(site) { }
+
         protected override void ProcessPage(Page p, EditStatus edit)
         {
             if (p.GetNamespace() != 0)
