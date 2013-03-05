@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\Libs\JSON.net\Bin\Net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -50,17 +50,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DotNetWikiBot.cs" />
+    <Compile Include="DotNetWikiBotExtensions\GeneralExtensions.cs" />
+    <Compile Include="DotNetWikiBotExtensions\SectionExtensions.cs" />
     <Compile Include="DotNetWikiBotExtensions\TemplateExtensions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Jobs\AngebotSubpageToMainarticleJob.cs" />
     <Compile Include="Jobs\BeschaffungTemplateJob.cs" />
     <Compile Include="Jobs\FixParameterfehlerJob.cs" />
+    <Compile Include="Jobs\ReplacementJob.cs" />
     <Compile Include="Jobs\RemoveUeberfluessigeParameter.cs" />
+    <Compile Include="Jobs\StandortTemplateJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatusAPI.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Newtonsoft.Json.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

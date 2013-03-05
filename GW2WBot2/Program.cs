@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Text.RegularExpressions;
 using DotNetWikiBot;
 using GW2WBot2.Jobs;
 
@@ -45,7 +47,40 @@ namespace GW2WBot2
             pl.FillFromFile("pagelist.txt");
             pl.Sort();
             
-            new BeschaffungTemplateJob().Run(s,pl);
+            //new BeschaffungTemplateJob().Run(pl);
+
+            //new ReplacementJob(s
+            //                   new Dictionary<string, string>()
+            //                       {
+            //                           {"Juwelenschleifermeistern", "Meister-Juwelieren"},
+            //                           {"Kochmeistern", "Meister-Köchen"},
+            //                           {"Konstrukteurmeistern", "Meister-Konstrukteuren"},
+            //                           {"Lederermeistern", "Meister-Lederern"},
+            //                           {"Rüstungsschmiedemeistern", "Meister-Rüstungsschmieden"},
+            //                           {"Schneidermeistern", "Meister-Schneidern"},
+            //                           {"Waffenschmiedmeistern", "Meister-Waffenschmieden"},
+            //                           {"Waidmannmeistern", "Meister-Waidmännern"},
+
+            //                           {"[[Juwelenschleifermeister]]n", "[[Meister-Juwelier]]en"},
+            //                           {"[[Kochmeister]]n", "[[Meister-Koch|Meister-Köchen]]"},
+            //                           {"[[Konstrukteurmeister]]n", "[[Meister-Konstrukteur]]en"},
+            //                           {"[[Lederermeister]]n", "[[Meister-Lederer]]n"},
+            //                           {"[[Rüstungsschmiedemeister]]n", "[[Meister-Rüstungsschmied]]en"},
+            //                           {"[[Schneidermeister]]n", "[[Meister-Schneider]]n"},
+            //                           {"[[Waffenschmiedmeister]]n", "[[Meister-Waffenschmied]]en"},
+            //                           {"[[Waidmannmeister]]n", "[[Meister-Waidmann|Meister-Waidmännern]]"},
+
+            //                           {"Juwelenschleifermeister", "Meister-Juwelier"},
+            //                           {"Kochmeister", "Meister-Koch"},
+            //                           {"Konstrukteurmeister", "Meister-Konstrukteur"},
+            //                           {"Lederermeister", "Meister-Lederer"},
+            //                           {"Rüstungsschmiedemeister", "Meister-Rüstungsschmied"},
+            //                           {"Schneidermeister", "Meister-Schneider"},
+            //                           {"Waffenschmiedmeister", "Meister-Waffenschmied"},
+            //                           {"Waidmannmeister", "Meister-Waidmann"}
+            //                       }, new Dictionary<Regex, string>()).Run(pl);
+
+            new StandortTemplateJob(s).Run(pl);
         }
     }
 }
