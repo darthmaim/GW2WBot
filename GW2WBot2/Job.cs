@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using DotNetWikiBot;
@@ -13,17 +14,31 @@ namespace GW2WBot2
         protected Job(Site site)
         {
             Site = site;
+            Pages = new List<Page>();
         }
 
+        public List<Page> Pages { get; set; }
 
-        public void Run(PageList pl)
+        public void Run(PageList pageList)
+        {
+            Pages = new List<Page>(pageList.ToEnumerable());
+            Run();
+        }
+
+        public void Run(IEnumerable<Page> pages)
+        {
+            Pages = new List<Page>(pages);
+            Run();
+        }
+
+        public void Run()
         {
             Start();
             var statusApi = new StatusApi();
             statusApi.SetStatus(true);
             try
             {
-                foreach (Page p in pl.ToEnumerable().SkipWhile(p => !p.title.StartsWith("Arkanist")))
+                lock(Pages) foreach (Page p in Pages.OrderBy(p => p.title))
                 {
                     if (!statusApi.GetRunning())
                     {

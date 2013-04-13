@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using DotNetWikiBot;
+using DotNetWikiBotExtensions;
 using GW2WBot2.Jobs;
 
 namespace GW2WBot2
@@ -80,7 +81,25 @@ namespace GW2WBot2
             //                           {"Waidmannmeister", "Meister-Waidmann"}
             //                       }, new Dictionary<Regex, string>()).Run(pl);
 
-            new StandortTemplateJob(s).Run(pl);
+            new StandortTemplateJob(s).Run(pl.ToEnumerable().SkipWhile(p => !p.title.StartsWith("Blopp")));
+
+            //new RenameTemplateParameterJob(s, new Dictionary<string, Dictionary<string, string>> {
+            //        {"Infobox Event", new Dictionary<string, string> {
+            //            {"sektor",  "gegend"},
+            //            {"sektor1", "gegend1"},
+            //            {"sektor2", "gegend2"},
+            //            {"sektor3", "gegend3"},
+            //            {"sektor4", "gegend4"},
+            //            {"sektor5", "gegend5"},
+            //            {"sektor6", "gegend6"},
+            //            {"sektor7", "gegend7"},
+            //            {"sektor8", "gegend8"},
+            //            {"sektor9", "gegend9"},
+            //        } },
+            //        {"Infobox Aufgabe", new Dictionary<string, string> {
+            //            {"sektor",  "gegend"},
+            //        } }
+            //    }).Run();
         }
     }
 }

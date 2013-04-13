@@ -9,7 +9,7 @@ namespace GW2WBot2.Jobs
 {
     public class StandortTemplateJob : Job
     {
-        private List<string> _schauplaetze = new List<string> { "Ascalon", "Kryta", "Maguuma-Dschungel", "Meer des Leids", "Ruinen von Orr", "Zittergipfel-Gebirge" };
+        private readonly List<string> _schauplaetze = new List<string> { "Ascalon", "Kryta", "Maguuma-Dschungel", "Meer des Leids", "Ruinen von Orr", "Zittergipfel-Gebirge" };
 
         public StandortTemplateJob(Site site) : base(site)
         { }
@@ -94,10 +94,7 @@ namespace GW2WBot2.Jobs
                     lastMatch = null;
                 }
 
-                if (!added)
-                    lastMatch = match;
-                else
-                    lastMatch = null;
+                lastMatch = !added ? match : null;
             }
 
             if (lastMatch != null)
@@ -130,8 +127,9 @@ namespace GW2WBot2.Jobs
             if (_schauplaetze.Contains(page)) return true;
 
             //return true if the page doesn't exist
-            Page p = new Page(Site, page);
+            var p = new Page(Site, page);
             p.Load();
+            if(!p.Exists()) _schauplaetze.Add(page);
             return !p.Exists();
         }
     }
