@@ -56,6 +56,8 @@ namespace GW2WBot2
                         statusApi.AddEdit(p.title, p.lastRevisionID, editStatus.EditComment);
                         Thread.Sleep(10000);
                     }
+
+                    Console.Title = string.Format("({0}/{1})", ++i, pl.Count());
                 }
             }
             finally

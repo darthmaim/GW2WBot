@@ -45,7 +45,8 @@ namespace GW2WBot2
             }
             
             var pl =  new PageList(s);
-            pl.FillFromFile("pagelist.txt");
+            //pl.FillFromFile("pagelist.txt");
+            pl.FillFromCategory("Kategorie:Fehlende Informationen");
             pl.Sort();
             
             //new BeschaffungTemplateJob().Run(pl);
@@ -81,6 +82,16 @@ namespace GW2WBot2
             //                           {"Waidmannmeister", "Meister-Waidmann"}
             //                       }, new Dictionary<Regex, string>()).Run(pl);
 
+            new StandortTemplateJob(s).Run(pl);
+
+            //new ReplacementJob(s,
+            //    new Dictionary<string, string>()
+            //        {
+            //            {"Schlichter Wiederverwertungskit", "Schlichtes Wiederverwertungskit"},
+            //            {"Gespannter Rohlederflicken", "Gespannter Rohleder-Flicken"}
+            //        }, new Dictionary<Regex, string>()).Run(pl);
+
+            //new StandortTemplateJob(s).Run(pl);
             new StandortTemplateJob(s).Run(pl.ToEnumerable().SkipWhile(p => !p.title.StartsWith("Blopp")));
 
             //new RenameTemplateParameterJob(s, new Dictionary<string, Dictionary<string, string>> {
@@ -100,6 +111,8 @@ namespace GW2WBot2
             //            {"sektor",  "gegend"},
             //        } }
             //    }).Run();
+
+            new FehlendeInformationenJob(s).Run(pl);
         }
     }
 }
