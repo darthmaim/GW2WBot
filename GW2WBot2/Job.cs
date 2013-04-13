@@ -38,7 +38,8 @@ namespace GW2WBot2
             statusApi.SetStatus(true);
             try
             {
-                lock(Pages) foreach (Page p in Pages.OrderBy(p => p.title))
+                var i = 0;
+                lock(Pages) foreach (Page p in Pages.OrderBy(p => p.title).Skip(720))
                 {
                     if (!statusApi.GetRunning())
                     {
@@ -57,7 +58,7 @@ namespace GW2WBot2
                         Thread.Sleep(10000);
                     }
 
-                    Console.Title = string.Format("({0}/{1})", ++i, pl.Count());
+                    Console.Title = string.Format("({0}/{1})", ++i, Pages.Count());
                 }
             }
             finally

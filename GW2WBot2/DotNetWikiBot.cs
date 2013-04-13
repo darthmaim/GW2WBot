@@ -1248,7 +1248,7 @@ namespace DotNetWikiBot
                     if (kvp.Key.Length > padding)
                         padding = kvp.Key.Length;
 
-            int i = 1;
+            int i = 0;
             string template = "{{" + templateTitle;
             foreach (KeyValuePair<string, string> kvp in templateParams) {
                 template += "\n | ";
@@ -1269,7 +1269,7 @@ namespace DotNetWikiBot
             template += "\n}}";
 
             if (inline == true)
-                template = template.Replace("\n", " ");
+                template = template.Replace("\n", "");
             if (withoutSpaces == true)
                 template = template.Replace(" ", "");
             return template;

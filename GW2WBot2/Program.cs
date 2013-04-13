@@ -33,6 +33,10 @@ namespace GW2WBot2
                 Console.WriteLine("Incomplete config");
                 return;
             }
+
+            var statusApi = new StatusApi();
+            statusApi.SetStatus(false);
+            
             
             var s = new Site("http://wiki-de.guildwars2.com/wiki/", User, Pass);
 
@@ -43,7 +47,7 @@ namespace GW2WBot2
                 pagelist.FillFromCategoryTree("Guild Wars 2");
                 pagelist.SaveTitlesToFile("pagelist.txt");
             }
-            
+
             var pl =  new PageList(s);
             //pl.FillFromFile("pagelist.txt");
             pl.FillFromCategory("Kategorie:Fehlende Informationen");
@@ -81,9 +85,7 @@ namespace GW2WBot2
             //                           {"Waffenschmiedmeister", "Meister-Waffenschmied"},
             //                           {"Waidmannmeister", "Meister-Waidmann"}
             //                       }, new Dictionary<Regex, string>()).Run(pl);
-
-            new StandortTemplateJob(s).Run(pl);
-
+            
             //new ReplacementJob(s,
             //    new Dictionary<string, string>()
             //        {
@@ -92,7 +94,7 @@ namespace GW2WBot2
             //        }, new Dictionary<Regex, string>()).Run(pl);
 
             //new StandortTemplateJob(s).Run(pl);
-            new StandortTemplateJob(s).Run(pl.ToEnumerable().SkipWhile(p => !p.title.StartsWith("Blopp")));
+            //new StandortTemplateJob(s).Run(pl.ToEnumerable().SkipWhile(p => !p.title.StartsWith("Blopp")));
 
             //new RenameTemplateParameterJob(s, new Dictionary<string, Dictionary<string, string>> {
             //        {"Infobox Event", new Dictionary<string, string> {
