@@ -57,6 +57,7 @@
     <Compile Include="Job.cs" />
     <Compile Include="Jobs\AngebotSubpageToMainarticleJob.cs" />
     <Compile Include="Jobs\BeschaffungTemplateJob.cs" />
+    <Compile Include="Jobs\FehlendeInformationenJob.cs" />
     <Compile Include="Jobs\FixParameterfehlerJob.cs" />
     <Compile Include="Jobs\ReplacementJob.cs" />
     <Compile Include="Jobs\RemoveUeberfluessigeParameter.cs" />

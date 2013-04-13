@@ -23,7 +23,8 @@ namespace GW2WBot2
             statusApi.SetStatus(true);
             try
             {
-                foreach (Page p in pl.ToEnumerable().SkipWhile(p => !p.title.StartsWith("Arkanist")))
+                int i = 0;
+                foreach (Page p in pl.ToEnumerable())
                 {
                     if (!statusApi.GetRunning())
                     {
@@ -41,6 +42,8 @@ namespace GW2WBot2
                         statusApi.AddEdit(p.title, p.lastRevisionID, editStatus.EditComment);
                         Thread.Sleep(10000);
                     }
+
+                    Console.Title = string.Format("({0}/{1})", ++i, pl.Count());
                 }
             }
             finally
