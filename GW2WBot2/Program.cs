@@ -50,8 +50,8 @@ namespace GW2WBot2
 
             var pl =  new PageList(s);
             //pl.FillFromFile("pagelist.txt");
-            pl.FillFromCategory("Kategorie:Fehlende Informationen");
-            pl.Sort();
+            //pl.FillFromCategory("Kategorie:Fehlende Informationen");
+            //pl.Sort();
             
             //new BeschaffungTemplateJob().Run(pl);
 
@@ -114,7 +114,9 @@ namespace GW2WBot2
             //        } }
             //    }).Run();
 
-            new FehlendeInformationenJob(s).Run(pl);
+            //new FehlendeInformationenJob(s).Run(pl);
+
+            new FixParameterfehlerJob(s).Run();
         }
     }
 }

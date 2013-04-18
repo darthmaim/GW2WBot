@@ -39,7 +39,7 @@ namespace GW2WBot2
             try
             {
                 var i = 0;
-                lock(Pages) foreach (Page p in Pages.OrderBy(p => p.title).Skip(720))
+                lock(Pages) foreach (Page p in Pages.OrderBy(p => p.title).Skip(0))
                 {
                     if (!statusApi.GetRunning())
                     {

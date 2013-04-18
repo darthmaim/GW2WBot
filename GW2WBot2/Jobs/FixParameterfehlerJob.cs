@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DotNetWikiBot;
 using DotNetWikiBotExtensions;
 
@@ -12,6 +13,9 @@ namespace GW2WBot2.Jobs
         protected override void ProcessPage(Page p, EditStatus edit)
         {
             var changes = new List<string>();
+
+            if (p.GetNamespace() != 0) return;
+            p.Load();
             
             var templates = p.GetAllTemplates();
             foreach (var template in templates)
@@ -60,10 +64,54 @@ namespace GW2WBot2.Jobs
                             template.Parameters["gebunden"] = "seele";
                         }
                     }
+                    
+                    //seltenheit = ramsch -> seltenheit = scrhott
                     if (template.Parameters.ContainsKey("seltenheit") && template.Parameters["seltenheit"].ToLower() == "ramsch")
                     {
                         changes.Add("'seltenheit = " + template.Parameters["seltenheit"] + "' zu 'seltenheit = Schrott' geändert");
                         template.Parameters["seltenheit"] = "Schrott";
+                    }
+
+                    //benutzungen = 1
+                    if (template.Parameters.ContainsKey("benutzungen") && template.Parameters["benutzungen"] == "1")
+                    {
+                        changes.Add("'benutzungen = 1' entfernt");
+                        template.Parameters.Remove("benutzungen");
+                    }
+
+                }
+                #endregion
+
+                #region Angebot
+                if (template.Title.ToLower() == "angebot")
+                {
+                    //seltenheit = ja entfernen
+                    if (template.Parameters.ContainsKey("seltenheit") &&
+                        template.Parameters["seltenheit"].ToLower() == "ja")
+                    {
+                        changes.Add("'seltenheit = ja' entfernt");
+                        template.Parameters.Remove("seltenheit");
+                    }
+                    //stufe = ja entfernen
+                    if (template.Parameters.ContainsKey("stufe") &&
+                        template.Parameters["stufe"].ToLower() == "ja")
+                    {
+                        changes.Add("'stufe = ja' entfernt");
+                        template.Parameters.Remove("stufe");
+                    }
+                    //typ = ja entfernen
+                    if (template.Parameters.ContainsKey("typ") &&
+                        template.Parameters["typ"].ToLower() == "ja")
+                    {
+                        changes.Add("'typ = ja' entfernt");
+                        template.Parameters.Remove("typ");
+                    }
+                    //werte = ja entfernen
+                    if (template.Parameters.ContainsKey("werte") &&
+                        template.Parameters["werte"].ToLower() == "ja")
+                    {
+                        changes.Add("'werte = ja' entfernt");
+                        template.Parameters.Remove("werte");
                     }
                 }
                 #endregion
@@ -83,6 +131,27 @@ namespace GW2WBot2.Jobs
                     }
                     if (changedSomething)
                         changes.Add("Überflüssiges + aus dem [[Vorlage:Rezept|Rezept]] " + (template.Parameters.ContainsKey("name") ? template.Parameters["name"] : p.title) + " entfernt");
+
+
+                    //anzahl = 1
+                    if (template.Parameters.ContainsKey("anzahl") && template.Parameters["anzahl"] == "1")
+                    {
+                        changes.Add("'anzahl = 1' entfernt");
+                        template.Parameters.Remove("anzahl");
+                    }
+
+                    //gebunden = benutzung bei seltenheit meisterwerk/selten/exotisch/legendär entfernen
+                    if (template.Parameters.ContainsKey("gebunden") &&
+                        template.Parameters["gebunden"].ToLower() == "benutzung" &&
+                        template.Parameters.ContainsKey("seltenheit") &&
+                        (template.Parameters["seltenheit"].ToLower() == "meisterwerk" ||
+                         template.Parameters["seltenheit"].ToLower() == "selten" ||
+                         template.Parameters["seltenheit"].ToLower() == "exotisch" ||
+                         template.Parameters["seltenheit"].ToLower() == "legendär"))
+                    {
+                        changes.Add(string.Format("'gebunden = {0}' entfernt, da 'seltenheit = {1}'", template.Parameters["gebunden"], template.Parameters["seltenheit"]));
+                        template.Parameters.Remove("gebunden");
+                    }
                 }
                 #endregion
 
@@ -107,6 +176,16 @@ namespace GW2WBot2.Jobs
                 edit.EditComment = comment;
                 edit.Save = true;
             }
+        }
+
+        protected override void Start()
+        {
+            if (Pages.Count > 0) return;
+            
+            var pl = new PageList(Site);
+            pl.FillFromCategoryTree("Parameterfehler");
+
+            Pages = pl.ToEnumerable().ToList();
         }
     }
 }

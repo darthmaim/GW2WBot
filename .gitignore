@@ -1,0 +1,13 @@
+/GW2WBot2.Tests
+/GW2WBot2/obj
+/GW2WBot2/bin
+/TestResults
+/GW2WBot2.sln.docstates.suo
+/GW2WBot2.sln.DotSettings.user
+/GW2WBot2.suo
+/GW2WBot2.vsmdi
+/Local.testsettings
+/TraceAndTestImpact.testsettings
+/GW2WBot2/*.user
+
+/*.suo
