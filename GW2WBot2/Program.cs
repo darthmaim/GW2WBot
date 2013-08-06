@@ -37,7 +37,6 @@ namespace GW2WBot2
             var statusApi = new StatusApi();
             statusApi.SetStatus(false);
             
-            
             var s = new Site("http://wiki-de.guildwars2.com/wiki/", User, Pass);
 
             if (args.Contains("-generatePagelist") || !File.Exists("pagelist.txt"))
@@ -116,7 +115,16 @@ namespace GW2WBot2
 
             //new FehlendeInformationenJob(s).Run(pl);
 
-            new FixParameterfehlerJob(s).Run();
+            new ReplacementJob(s)
+                {
+                    Replacements =
+                        new Dictionary<string, string>()
+                            {
+                                {"Verbrauchsartikel", "Verbrauchsgegenstand"}
+                            }
+                }.Run(pl);
+
+            //new FixParameterfehlerJob(s).Run();
         }
     }
 }
