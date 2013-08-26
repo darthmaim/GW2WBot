@@ -22,7 +22,7 @@ namespace GW2WBot2.Jobs
             {
                 var changeCountBeforeTemplate = changes.Count;
 
-                #region Infobox Gegenstand
+                #region [G] Infobox Gegenstand
                 if (template.Title.ToLower() == "Infobox Gegenstand".ToLower())
                 {
                     //stapelbar = ja/###/...
@@ -82,7 +82,7 @@ namespace GW2WBot2.Jobs
                 }
                 #endregion
 
-                #region Angebot
+                #region [J] Angebot
                 if (template.Title.ToLower() == "angebot")
                 {
                     //seltenheit = ja entfernen
@@ -116,7 +116,7 @@ namespace GW2WBot2.Jobs
                 }
                 #endregion
 
-                #region Rezept
+                #region [R] Rezept
                 if (template.Title.ToLower() == "Rezept".ToLower())
                 {
                     var changedSomething = false;
@@ -154,7 +154,7 @@ namespace GW2WBot2.Jobs
                     }
                 }
                 #endregion
-
+                
                 if (changeCountBeforeTemplate != changes.Count)
                     template.Save();
             }

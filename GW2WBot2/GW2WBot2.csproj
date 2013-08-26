@@ -59,6 +59,8 @@
     <Compile Include="Jobs\BeschaffungTemplateJob.cs" />
     <Compile Include="Jobs\FehlendeInformationenJob.cs" />
     <Compile Include="Jobs\FixParameterfehlerJob.cs" />
+    <Compile Include="Jobs\LinkAttributeInItemDescriptionJob.cs" />
+    <Compile Include="Jobs\MuenzenJob.cs" />
     <Compile Include="Jobs\RenameTemplateParameterJob.cs" />
     <Compile Include="Jobs\ReplacementJob.cs" />
     <Compile Include="Jobs\RemoveUeberfluessigeParameter.cs" />
