@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections;
+using System.Linq;
+using System.Text.RegularExpressions;
 using DotNetWikiBotExtensions;
 using System.Collections.Generic;
 using DotNetWikiBot;
@@ -9,12 +11,25 @@ namespace GW2WBot2.Jobs
     {
         public IDictionary<string, string> Replacements { get; set; }
         public IDictionary<Regex, string> RegexReplacements { get; set; }
+        public GeneralExtensions.Placeholder Placeholders { get; set; }
 
+        public ReplacementJob(Site site) : 
+            this(site, new Dictionary<string, string>(), new Dictionary<Regex, string>())
+        { }
+        
         public ReplacementJob(Site site, IDictionary<string, string> replacements, IDictionary<Regex, string> regexReplacements)
+            : this(site, replacements, regexReplacements, GeneralExtensions.Placeholder.Default) 
+        { }
+
+        public ReplacementJob(Site site,
+                              IDictionary<string, string> replacements,
+                              IDictionary<Regex, string> regexReplacements,
+                              GeneralExtensions.Placeholder placeholders)
             : base(site)
         {
             Replacements = replacements;
             RegexReplacements = regexReplacements;
+            Placeholders = placeholders;
         }
 
         protected override void ProcessPage(Page p, EditStatus edit)
@@ -26,25 +41,22 @@ namespace GW2WBot2.Jobs
 
             p.InsertPlaceholders(GeneralExtensions.Placeholder.Default);
 
-            foreach (var replacement in Replacements)
+            foreach (var replacement in Replacements.Where(replacement => p.text.Contains(replacement.Key)))
             {
-                if (p.text.Contains(replacement.Key))
-                {
-                    p.text = p.text.Replace(replacement.Key, replacement.Value);
-                    changes.Add(replacement.Key + " → " + replacement.Value);
-                }
+                p.text = p.text.Replace(replacement.Key, replacement.Value);
+                changes.Add(replacement.Key + " → " + replacement.Value);
             }
             foreach (var replacement in RegexReplacements)
             {
-                //this is all not fast, but it works
-                //does not work :P
+                var pattern = replacement.Key;
+                var replace = replacement.Value;
 
-                //var match = replacement.Key.Match(p.text);
-                //if (match.Success)
-                //{
-                //    p.text = replacement.Key.Replace(p.text, replacement.Value);
-                //    changes.Add(match.Value + " → " + replacement.Key.Replace(match.Value, replacement.Value));
-                //}
+                pattern.Replace(p.text, match =>
+                    {
+                        string replaceWith = RegexParseReplaceWithString(match, replace);
+                        changes.Add(match.Value + " → " + replaceWith);
+                        return replaceWith;
+                    });
             }
 
             p.RemovePlaceholders();
@@ -54,6 +66,12 @@ namespace GW2WBot2.Jobs
                 edit.Save = true;
                 edit.EditComment = "Ersetzt: " + string.Join(", ", changes);
             }
+        }
+
+        private string RegexParseReplaceWithString(Match match, string replacement)
+        {
+            return match.Groups.Cast<Group>()
+                        .Aggregate(replacement, (current, group) => current.Replace("$" + group.Index, group.Value));
         }
     }
 }
