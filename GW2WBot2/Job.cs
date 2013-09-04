@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using DotNetWikiBot;
 using DotNetWikiBotExtensions;
 
+[assembly: InternalsVisibleTo("GW2WBot2.Tests")]
 namespace GW2WBot2
 {
     public abstract class Job
@@ -39,7 +41,7 @@ namespace GW2WBot2
             try
             {
                 var i = 0;
-                lock(Pages) foreach (Page p in Pages.OrderBy(p => p.title).Skip(840))
+                lock(Pages) foreach (Page p in Pages.OrderBy(p => p.title).Skip(0))
                 {
                     if (!statusApi.GetRunning())
                     {

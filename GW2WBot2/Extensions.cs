@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -64,10 +65,51 @@ namespace GW2WBot2
              return original.Substring(start, length);
          }
 
-        private static Regex _trailingPunctuation = new Regex(@"[\W]*$");
+        private static readonly Regex TrailingPunctuation = new Regex(@"[\W]*$");
         public static string RemoveTrailingPunctuation(this string original)
         {
-            return _trailingPunctuation.Replace(original, "");
+            return TrailingPunctuation.Replace(original, "");
+        }
+
+        /// <returns>Returns true if the key exists and the value is the same, returns false if the key doesnt exists or the value is different</returns>
+        public static bool HasValueIgnoreCase(this IDictionary<string, string> dictionary, string key, string value)
+        {
+            return HasValue(dictionary, key, value, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <returns>Returns true if the key exists and the value is the same, returns false if the key doesnt exists or the value is different</returns>
+        public static bool HasValue(this IDictionary<string, string> dictionary, string key, string value,
+                                    StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            return dictionary.ContainsKey(key) && dictionary[key].Equals(value, comparisonType);
+        }
+
+        public static bool HasValueIgnoreCase(this IDictionary<string, string> dictionary, string key, params string[] value)
+        {
+            return HasValue(dictionary, StringComparison.OrdinalIgnoreCase, key, value);
+        }
+
+        public static bool HasValue(this IDictionary<string, string> dictionary, string key, params string[] value)
+        {
+            return HasValue(dictionary, StringComparison.Ordinal, key, value);
+        }
+
+        public static bool HasValue(this IDictionary<string, string> dictionary, StringComparison comparisonType, string key, params string[] value)
+        {
+            return dictionary.ContainsKey(key) && value.Any(s => s.Equals(dictionary[key], comparisonType));
+        }
+
+        /// <returns>Returns true if the key exists and the value is different, returns false if the key doesnt exists or the value is the same</returns>
+        public static bool HasNotValueIgnoreCase(this IDictionary<string, string> dictionary, string key, string value)
+        {
+            return HasNotValue(dictionary, key, value, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <returns>Returns true if the key exists and the value is different, returns false if the key doesnt exists or the value is the same</returns>
+        public static bool HasNotValue(this IDictionary<string, string> dictionary, string key, string value,
+                                    StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            return dictionary.ContainsKey(key) && !dictionary[key].Equals(value, comparisonType);
         }
     }
 }

@@ -51,6 +51,8 @@ namespace GW2WBot2
             //pl.FillFromFile("pagelist.txt");
             //pl.FillFromCategory("Kategorie:Fehlende Informationen");
             //pl.Sort();
+
+            new FixParameterfehlerJob(s).Run();
             
             //new BeschaffungTemplateJob().Run(pl);
 
@@ -115,14 +117,14 @@ namespace GW2WBot2
 
             //new FehlendeInformationenJob(s).Run(pl);
 
-            new ReplacementJob(s)
-                {
-                    Replacements =
-                        new Dictionary<string, string>()
-                            {
-                                {"Verbrauchsartikel", "Verbrauchsgegenstand"}
-                            }
-                }.Run(pl);
+            //new ReplacementJob(s)
+            //    {
+            //        Replacements =
+            //            new Dictionary<string, string>()
+            //                {
+            //                    {"Verbrauchsartikel", "Verbrauchsgegenstand"}
+            //                }
+            //    }.Run(pl);
 
             //new FixParameterfehlerJob(s).Run();
         }

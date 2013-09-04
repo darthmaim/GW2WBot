@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 using DotNetWikiBotExtensions;
 using System.Collections.Generic;
@@ -53,7 +52,7 @@ namespace GW2WBot2.Jobs
 
                 pattern.Replace(p.text, match =>
                     {
-                        string replaceWith = RegexParseReplaceWithString(match, replace);
+                        var replaceWith = RegexParseReplaceWithString(match, replace);
                         changes.Add(match.Value + " → " + replaceWith);
                         return replaceWith;
                     });
@@ -68,7 +67,7 @@ namespace GW2WBot2.Jobs
             }
         }
 
-        private string RegexParseReplaceWithString(Match match, string replacement)
+        private static string RegexParseReplaceWithString(Match match, string replacement)
         {
             return match.Groups.Cast<Group>()
                         .Aggregate(replacement, (current, group) => current.Replace("$" + group.Index, group.Value));
