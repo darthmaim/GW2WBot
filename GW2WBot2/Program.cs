@@ -36,7 +36,7 @@ namespace GW2WBot2
 
             var statusApi = new StatusApi();
             statusApi.SetStatus(false);
-            
+
             var s = new Site("http://wiki-de.guildwars2.com/wiki/", User, Pass);
 
             if (args.Contains("-generatePagelist") || !File.Exists("pagelist.txt"))
@@ -47,13 +47,26 @@ namespace GW2WBot2
                 pagelist.SaveTitlesToFile("pagelist.txt");
             }
 
+            try
+            {
+                Run(s);
+            }
+            finally
+            {
+                statusApi.SetStatus(false);
+            }
+        }
+
+        static void Run(Site s) {
             var pl =  new PageList(s);
             //pl.FillFromFile("pagelist.txt");
             //pl.FillFromCategory("Kategorie:Fehlende Informationen");
             //pl.Sort();
 
-            new FixParameterfehlerJob(s).Run();
+            //new FixParameterfehlerJob(s).Run();
             
+            new AufgestiegenerSchmuckJob(s).Run();
+
             //new BeschaffungTemplateJob().Run(pl);
 
             //new ReplacementJob(s
